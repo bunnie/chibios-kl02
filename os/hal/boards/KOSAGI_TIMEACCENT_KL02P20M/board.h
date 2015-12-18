@@ -24,8 +24,8 @@
 /*
  * Board identifier.
  */
-#define BOARD_FREESCALE_FREEDOM_KL25Z
-#define BOARD_NAME                  "Freescale Freedom KL25Z"
+#define BOARD_KOSAGI_TIMEACCENT_KL02P20M
+#define BOARD_NAME                  "Kosagi Time Accent KL02P20M V1"
 
 /* External 8 MHz crystal with PLL for 48 MHz core/system clock. */
 #define KINETIS_SYSCLK_FREQUENCY    48000000UL
