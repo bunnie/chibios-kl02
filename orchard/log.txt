@@ -1,0 +1,732 @@
+Compiling main.c
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:31:14: error: nested redefinition of ‘enum IRQn’
+ typedef enum IRQn
+              ^
+../os/ext/CMSIS/KINETIS/kl25z.h:31:14: error: redeclaration of ‘enum IRQn’
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:31:14: note: originally defined here
+ typedef enum IRQn
+              ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:34:3: error: redeclaration of enumerator ‘Reset_IRQn’
+   Reset_IRQn                    = -15,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:34:3: note: previous definition of ‘Reset_IRQn’ was here
+   Reset_IRQn                    = -15,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:35:3: error: redeclaration of enumerator ‘NonMaskableInt_IRQn’
+   NonMaskableInt_IRQn           = -14,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:35:3: note: previous definition of ‘NonMaskableInt_IRQn’ was here
+   NonMaskableInt_IRQn           = -14,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:36:3: error: redeclaration of enumerator ‘HardFault_IRQn’
+   HardFault_IRQn                = -13,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:36:3: note: previous definition of ‘HardFault_IRQn’ was here
+   HardFault_IRQn                = -13,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:37:3: error: redeclaration of enumerator ‘SVCall_IRQn’
+   SVCall_IRQn                   = -5,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:37:3: note: previous definition of ‘SVCall_IRQn’ was here
+   SVCall_IRQn                   = -5,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:38:3: error: redeclaration of enumerator ‘PendSV_IRQn’
+   PendSV_IRQn                   = -2,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:38:3: note: previous definition of ‘PendSV_IRQn’ was here
+   PendSV_IRQn                   = -2,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:39:3: error: redeclaration of enumerator ‘SysTick_IRQn’
+   SysTick_IRQn                  = -1,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:39:3: note: previous definition of ‘SysTick_IRQn’ was here
+   SysTick_IRQn                  = -1,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:42:3: error: redeclaration of enumerator ‘DMA0_IRQn’
+   DMA0_IRQn                     = 0,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:42:3: note: previous definition of ‘DMA0_IRQn’ was here
+   DMA0_IRQn                     = 0,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:43:3: error: redeclaration of enumerator ‘DMA1_IRQn’
+   DMA1_IRQn                     = 1,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:43:3: note: previous definition of ‘DMA1_IRQn’ was here
+   DMA1_IRQn                     = 1,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:44:3: error: redeclaration of enumerator ‘DMA2_IRQn’
+   DMA2_IRQn                     = 2,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:44:3: note: previous definition of ‘DMA2_IRQn’ was here
+   DMA2_IRQn                     = 2,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:45:3: error: redeclaration of enumerator ‘DMA3_IRQn’
+   DMA3_IRQn                     = 3,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:45:3: note: previous definition of ‘DMA3_IRQn’ was here
+   DMA3_IRQn                     = 3,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:46:3: error: redeclaration of enumerator ‘Reserved0_IRQn’
+   Reserved0_IRQn                = 4,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:46:3: note: previous definition of ‘Reserved0_IRQn’ was here
+   Reserved0_IRQn                = 4,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:47:3: error: redeclaration of enumerator ‘FTFA_IRQn’
+   FTFA_IRQn                     = 5,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:47:3: note: previous definition of ‘FTFA_IRQn’ was here
+   FTFA_IRQn                     = 5,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:48:3: error: redeclaration of enumerator ‘PMC_IRQn’
+   PMC_IRQn                      = 6,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:48:3: note: previous definition of ‘PMC_IRQn’ was here
+   PMC_IRQn                      = 6,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:49:3: error: redeclaration of enumerator ‘LLWU_IRQn’
+   LLWU_IRQn                     = 7,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:49:3: note: previous definition of ‘LLWU_IRQn’ was here
+   LLWU_IRQn                     = 7,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:50:3: error: redeclaration of enumerator ‘I2C0_IRQn’
+   I2C0_IRQn                     = 8,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:50:3: note: previous definition of ‘I2C0_IRQn’ was here
+   I2C0_IRQn                     = 8,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:51:3: error: redeclaration of enumerator ‘I2C1_IRQn’
+   I2C1_IRQn                     = 9,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:51:3: note: previous definition of ‘I2C1_IRQn’ was here
+   I2C1_IRQn                     = 9,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:52:3: error: redeclaration of enumerator ‘SPI0_IRQn’
+   SPI0_IRQn                     = 10,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:52:3: note: previous definition of ‘SPI0_IRQn’ was here
+   SPI0_IRQn                     = 10,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:53:3: error: redeclaration of enumerator ‘SPI1_IRQn’
+   SPI1_IRQn                     = 11,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:53:3: note: previous definition of ‘SPI1_IRQn’ was here
+   SPI1_IRQn                     = 11,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:54:3: error: redeclaration of enumerator ‘UART0_IRQn’
+   UART0_IRQn                    = 12,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:54:3: note: previous definition of ‘UART0_IRQn’ was here
+   UART0_IRQn                    = 12,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:55:3: error: redeclaration of enumerator ‘UART1_IRQn’
+   UART1_IRQn                    = 13,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:55:3: note: previous definition of ‘UART1_IRQn’ was here
+   UART1_IRQn                    = 13,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:56:3: error: redeclaration of enumerator ‘UART2_IRQn’
+   UART2_IRQn                    = 14,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:56:3: note: previous definition of ‘UART2_IRQn’ was here
+   UART2_IRQn                    = 14,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:57:3: error: redeclaration of enumerator ‘ADC0_IRQn’
+   ADC0_IRQn                     = 15,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:57:3: note: previous definition of ‘ADC0_IRQn’ was here
+   ADC0_IRQn                     = 15,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:58:3: error: redeclaration of enumerator ‘CMP0_IRQn’
+   CMP0_IRQn                     = 16,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:58:3: note: previous definition of ‘CMP0_IRQn’ was here
+   CMP0_IRQn                     = 16,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:59:3: error: redeclaration of enumerator ‘TPM0_IRQn’
+   TPM0_IRQn                     = 17,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:59:3: note: previous definition of ‘TPM0_IRQn’ was here
+   TPM0_IRQn                     = 17,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:60:3: error: redeclaration of enumerator ‘TPM1_IRQn’
+   TPM1_IRQn                     = 18,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:60:3: note: previous definition of ‘TPM1_IRQn’ was here
+   TPM1_IRQn                     = 18,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:61:3: error: redeclaration of enumerator ‘TPM2_IRQn’
+   TPM2_IRQn                     = 19,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:61:3: note: previous definition of ‘TPM2_IRQn’ was here
+   TPM2_IRQn                     = 19,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:62:3: error: redeclaration of enumerator ‘RTC0_IRQn’
+   RTC0_IRQn                     = 20,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:62:3: note: previous definition of ‘RTC0_IRQn’ was here
+   RTC0_IRQn                     = 20,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:63:3: error: redeclaration of enumerator ‘RTC1_IRQn’
+   RTC1_IRQn                     = 21,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:63:3: note: previous definition of ‘RTC1_IRQn’ was here
+   RTC1_IRQn                     = 21,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:64:3: error: redeclaration of enumerator ‘PIT_IRQn’
+   PIT_IRQn                      = 22,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:64:3: note: previous definition of ‘PIT_IRQn’ was here
+   PIT_IRQn                      = 22,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:65:3: error: redeclaration of enumerator ‘Reserved1_IRQn’
+   Reserved1_IRQn                = 23,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:65:3: note: previous definition of ‘Reserved1_IRQn’ was here
+   Reserved1_IRQn                = 23,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:66:3: error: redeclaration of enumerator ‘USB_OTG_IRQn’
+   USB_OTG_IRQn                  = 24,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:66:3: note: previous definition of ‘USB_OTG_IRQn’ was here
+   USB_OTG_IRQn                  = 24,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:67:3: error: redeclaration of enumerator ‘DAC0_IRQn’
+   DAC0_IRQn                     = 25,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:67:3: note: previous definition of ‘DAC0_IRQn’ was here
+   DAC0_IRQn                     = 25,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:68:3: error: redeclaration of enumerator ‘TSI0_IRQn’
+   TSI0_IRQn                     = 26,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:68:3: note: previous definition of ‘TSI0_IRQn’ was here
+   TSI0_IRQn                     = 26,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:69:3: error: redeclaration of enumerator ‘MCG_IRQn’
+   MCG_IRQn                      = 27,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:69:3: note: previous definition of ‘MCG_IRQn’ was here
+   MCG_IRQn                      = 27,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:70:3: error: redeclaration of enumerator ‘LPTMR0_IRQn’
+   LPTMR0_IRQn                   = 28,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:70:3: note: previous definition of ‘LPTMR0_IRQn’ was here
+   LPTMR0_IRQn                   = 28,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:71:3: error: redeclaration of enumerator ‘Reserved2_IRQn’
+   Reserved2_IRQn                = 29,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:71:3: note: previous definition of ‘Reserved2_IRQn’ was here
+   Reserved2_IRQn                = 29,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:72:3: error: redeclaration of enumerator ‘PINA_IRQn’
+   PINA_IRQn                     = 30,
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:72:3: note: previous definition of ‘PINA_IRQn’ was here
+   PINA_IRQn                     = 30,
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:122:3: error: conflicting types for ‘SIM_TypeDef’
+ } SIM_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:122:3: note: previous declaration of ‘SIM_TypeDef’ was here
+ } SIM_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:136:3: error: conflicting types for ‘LLWU_TypeDef’
+ } LLWU_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:136:3: note: previous declaration of ‘LLWU_TypeDef’ was here
+ } LLWU_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:145:3: error: conflicting types for ‘PORT_TypeDef’
+ } PORT_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:145:3: note: previous declaration of ‘PORT_TypeDef’ was here
+ } PORT_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:165:3: error: conflicting types for ‘MCG_TypeDef’
+ } MCG_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:165:3: note: previous declaration of ‘MCG_TypeDef’ was here
+ } MCG_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:170:3: error: conflicting types for ‘OSC_TypeDef’
+ } OSC_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:170:3: note: previous declaration of ‘OSC_TypeDef’ was here
+ } OSC_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:178:3: error: conflicting types for ‘DMAChannel_TypeDef’
+ } DMAChannel_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:178:3: note: previous declaration of ‘DMAChannel_TypeDef’ was here
+ } DMAChannel_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:183:3: error: conflicting types for ‘DMA_TypeDef’
+ } DMA_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:183:3: note: previous declaration of ‘DMA_TypeDef’ was here
+ } DMA_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:188:3: error: conflicting types for ‘DMAMUX_TypeDef’
+ } DMAMUX_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:188:3: note: previous declaration of ‘DMAMUX_TypeDef’ was here
+ } DMAMUX_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:203:3: error: conflicting types for ‘TPM_TypeDef’
+ } TPM_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:203:3: note: previous declaration of ‘TPM_TypeDef’ was here
+ } TPM_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:235:3: error: conflicting types for ‘ADC_TypeDef’
+ } ADC_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:235:3: note: previous declaration of ‘ADC_TypeDef’ was here
+ } ADC_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:243:3: error: conflicting types for ‘LPTMR_TypeDef’
+ } LPTMR_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:243:3: note: previous declaration of ‘LPTMR_TypeDef’ was here
+ } LPTMR_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:250:3: error: conflicting types for ‘TSI_TypeDef’
+ } TSI_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:250:3: note: previous declaration of ‘TSI_TypeDef’ was here
+ } TSI_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:260:3: error: conflicting types for ‘GPIO_TypeDef’
+ } GPIO_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:260:3: note: previous declaration of ‘GPIO_TypeDef’ was here
+ } GPIO_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:272:3: error: conflicting types for ‘SPI_TypeDef’
+ } SPI_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:272:3: note: previous declaration of ‘SPI_TypeDef’ was here
+ } SPI_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:288:3: error: conflicting types for ‘I2C_TypeDef’
+ } I2C_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:288:3: note: previous declaration of ‘I2C_TypeDef’ was here
+ } I2C_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:301:3: error: conflicting types for ‘UART_TypeDef’
+ } UART_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:301:3: note: previous declaration of ‘UART_TypeDef’ was here
+ } UART_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:317:3: error: conflicting types for ‘UARTLP_TypeDef’
+ } UARTLP_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:317:3: note: previous declaration of ‘UARTLP_TypeDef’ was here
+ } UARTLP_TypeDef;
+   ^
+In file included from ../os/hal/ports/KINETIS/KL02x/hal_lld.h:28:0,
+                 from ../os/hal/include/hal.h:32,
+                 from main.c:18:
+../os/ext/CMSIS/KINETIS/kl25z.h:324:3: error: conflicting types for ‘PMC_TypeDef’
+ } PMC_TypeDef;
+   ^
+In file included from ../os/common/ports/ARMCMx/devices/KL02x/cmparams.h:68:0,
+                 from ../os/rt/ports/ARMCMx/chcore.h:70,
+                 from ../os/rt/include/ch.h:74,
+                 from main.c:17:
+../os/ext/CMSIS/KINETIS/kl02x.h:324:3: note: previous declaration of ‘PMC_TypeDef’ was here
+ } PMC_TypeDef;
+   ^
+../os/common/ports/ARMCMx/compilers/GCC/rules.mk:211: recipe for target 'build/obj/main.o' failed
+make: *** [build/obj/main.o] Error 1
