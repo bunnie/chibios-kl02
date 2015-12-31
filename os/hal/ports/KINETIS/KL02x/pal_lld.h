@@ -45,7 +45,7 @@
 /* I/O Ports Types and constants.                                            */
 /*===========================================================================*/
 
-#define TOTAL_PORTS     5
+#define TOTAL_PORTS     2
 #define PADS_PER_PORT   32
 
 /**

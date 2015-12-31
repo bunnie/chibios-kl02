@@ -35,31 +35,10 @@
 #endif
 
 #if !defined(KINETIS_SPI_USE_SPI1)
-#define KINETIS_SPI_USE_SPI1                TRUE
+#define KINETIS_SPI_USE_SPI1                FALSE
 #endif
 
-#if !defined(KINETIS_SPI0_RX_DMA_IRQ_PRIORITY)
-#define KINETIS_SPI0_RX_DMA_IRQ_PRIORITY    8
-#endif
-
-#if !defined(KINETIS_SPI0_RX_DMAMUX_CHANNEL)
-#define KINETIS_SPI0_RX_DMAMUX_CHANNEL      0
-#endif
-
-#if !defined(KINETIS_SPI0_RX_DMA_CHANNEL)
-#define KINETIS_SPI0_RX_DMA_CHANNEL         0
-#endif
-
-#if !defined(KINETIS_SPI0_TX_DMAMUX_CHANNEL)
-#define KINETIS_SPI0_TX_DMAMUX_CHANNEL      1
-#endif
-
-#if !defined(KINETIS_SPI0_TX_DMA_CHANNEL)
-#define KINETIS_SPI0_TX_DMA_CHANNEL         1
-#endif
-
-#define DMAMUX_SPI_RX_SOURCE    16
-#define DMAMUX_SPI_TX_SOURCE    17
+// there is no DMA on the KL02x
 
 /*===========================================================================*/
 /* Driver exported variables.                                                */
@@ -86,9 +65,9 @@ SPIDriver SPID2;
 static void spi_fill_buffer(SPIDriver *spip)
 {
     if ((spip->txbuf) && (spip->txoffset < spip->count))
-      spip->spi->DL = spip->txbuf[spip->txoffset];
+      spip->spi->D = spip->txbuf[spip->txoffset];
     else
-      spip->spi->DL = 0xff;
+      spip->spi->D = 0xff;
     spip->txoffset++;
 }
 
@@ -126,9 +105,9 @@ static void spi_handle_isr(SPIDriver *spip)
 
   while ((spip->rxoffset < spip->count) && (spip->spi->S & SPIx_S_SPRF)) {
     if ((spip->rxbuf) && (spip->rxoffset < spip->count))
-      spip->rxbuf[spip->rxoffset] = spip->spi->DL;
+      spip->rxbuf[spip->rxoffset] = spip->spi->D;
     else
-      (void)spip->spi->DL;
+      (void)spip->spi->D;
     spip->rxoffset++;
   }
 
@@ -388,21 +367,21 @@ void spi_lld_receive(SPIDriver *spip, size_t n, void *rxbuf) {
  * @param[in] frame     the data frame to send over the SPI bus
  * @return              The received data frame from the SPI bus.
  */
-uint16_t spi_lld_polled_exchange(SPIDriver *spip, uint16_t frame) {
+uint8_t spi_lld_polled_exchange(SPIDriver *spip, uint8_t frame) {
 
   osalDbgAssert(spip->state == SPI_READY, "Invalid SPI state");
-  uint16_t result;
+  uint8_t result;
 
   /* Load byte into the buffer */
-  spip->spi->DH = (frame >> 8);
-  spip->spi->DL = frame;
+  //spip->spi->DH = (frame >> 8);
+  spip->spi->D = frame;
 
   /* Wait for the byte to be transmitted */
   while (!(spip->spi->S & SPIx_S_SPTEF))
     asm("");
 
-  result  = spip->spi->DH << 8;
-  result |= spip->spi->DL;
+  //result  = spip->spi->DH << 8;
+  result = spip->spi->D;
 
   return result;
 }

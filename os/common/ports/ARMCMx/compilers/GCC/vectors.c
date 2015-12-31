@@ -434,12 +434,19 @@ void Vector3FC(void) __attribute__((weak, alias("_unhandled_exception")));
  * @brief   STM32 vectors table.
  */
 #if !defined(__DOXYGEN__)
+__attribute__ ((used, section(".vectors")))
+#endif
+/*
+// this new code from mainline is buggy for kinetis
+#if !defined(__DOXYGEN__)
 #if !defined(VECTORS_SECTION)
 __attribute__ ((used, aligned(128), section(".vectors")))
 #else
 __attribute__ ((used, aligned(128), section(VECTORS_SECTION)))
 #endif
 #endif
+*/
+
 /*lint -save -e9075 [8.4] All symbols are invoked from asm context.*/
 vectors_t _vectors = {
 /*lint -restore*/
@@ -618,10 +625,10 @@ vectors_t _vectors = {
     Vector3C0,          Vector3C4,          Vector3C8,          Vector3CC,
 #endif
 #if CORTEX_NUM_VECTORS > 228
-    Vector3D0,          Vector3D4,          Vector3D8,          Vector3DC
+    Vector3D0,          Vector3D4,          Vector3D8,          Vector3DC,
 #endif
 #if CORTEX_NUM_VECTORS > 232
-    Vector3E0,          Vector3E4,          Vector3E8,          Vector3EC
+    Vector3E0,          Vector3E4,          Vector3E8,          Vector3EC,
 #endif
 #if CORTEX_NUM_VECTORS > 236
     Vector3F0,          Vector3F4,          Vector3F8,          Vector3FC
