@@ -52,7 +52,7 @@ SECTIONS
     startup : ALIGN(16) SUBALIGN(16)
     {
         KEEP(*(.vectors))
-    } > flash
+    } > flash0
 
     constructors : ALIGN(4) SUBALIGN(4)
     {

@@ -42,7 +42,7 @@
 #endif /* 0 */
 
 /* FEE mode - 48 MHz */
-#if 0
+#if 1
 #define KINETIS_MCG_MODE            KINETIS_MCG_MODE_FEE
 #define KINETIS_MCG_FLL_DMX32       1           /* Fine-tune for 32.768 kHz */
 #define KINETIS_MCG_FLL_DRS         1           /* 1464x FLL factor */

@@ -105,7 +105,7 @@ void kl2x_clock_init(void) {
      C3[SCTRIM] and C4[SCFTRIM] factory trim values apply to f_int. */
 
   /* System oscillator drives 32 kHz clock (OSC32KSEL=0) */
-  SIM->SOPT1 &= ~SIM_SOPT1_OSC32KSEL_MASK;
+  //  SIM->SOPT1 &= ~SIM_SOPT1_OSC32KSEL_MASK;
 
 #if KINETIS_MCG_MODE == KINETIS_MCG_MODE_FEI
   /* This is the default mode at reset. */
@@ -142,8 +142,8 @@ void kl2x_clock_init(void) {
           SIM_CLKDIV1_OUTDIV4(KINETIS_MCG_FLL_OUTDIV4 - 1);
 
   /* EXTAL0 and XTAL0 */
-  PORTA->PCR[18] &= ~0x01000700; /* Set PA18 to analog (default) */
-  PORTA->PCR[19] &= ~0x01000700; /* Set PA19 to analog (default) */
+  //  PORTA->PCR[18] &= ~0x01000700; /* Set PA18 to analog (default) */  // defaults should already be good
+  //  PORTA->PCR[19] &= ~0x01000700; /* Set PA19 to analog (default) */
 
   OSC0->CR = 0;
 

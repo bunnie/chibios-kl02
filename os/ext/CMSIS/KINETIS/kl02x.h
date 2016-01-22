@@ -92,8 +92,8 @@ typedef enum IRQn
 
 typedef struct
 {
-  __IO uint32_t SOPT1;
-  __IO uint32_t SOPT1CFG;
+  __IO uint32_t RESERVED_SOPT1;
+  __IO uint32_t RESERVED_SOPT1CFG;
        uint32_t RESERVED0[1023];
   __IO uint32_t SOPT2;
   __I  uint32_t RESERVED1[1];
@@ -158,10 +158,7 @@ typedef struct
        uint8_t  RESERVED1[1];
   __IO uint8_t  ATCVH;
   __IO uint8_t  ATCVL;
-  __IO uint8_t  C7;
-  __IO uint8_t  C8;
-  __IO uint8_t  C9;
-  __IO uint8_t  C10;
+  __IO uint8_t  RESERVED2[4];
 } MCG_TypeDef;
 
 typedef struct
