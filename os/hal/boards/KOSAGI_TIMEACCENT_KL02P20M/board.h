@@ -25,7 +25,7 @@
  * Board identifier.
  */
 #define BOARD_KOSAGI_TIMEACCENT_KL02P20M
-#define BOARD_NAME                  "Kosagi Time Accent KL02P20M V1"
+#define BOARD_NAME                  "Kosagi Time Accent KL02P20M V1 - BW OLED"
 
 /* External 8 MHz crystal with PLL for 48 MHz core/system clock. */
 // overridden by mcuconf.h to be FEE mode with 48MHz from 32kHz ext clock

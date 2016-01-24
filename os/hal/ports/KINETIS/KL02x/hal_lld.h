@@ -26,7 +26,7 @@
 #define _HAL_LLD_H_
 
 #include "kl02x.h"
-//#include "kinetis_registry.h"
+#include "kinetis_registry.h"
 
 /*===========================================================================*/
 /* Driver constants.                                                         */

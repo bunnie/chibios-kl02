@@ -18,6 +18,7 @@
 #include "hal.h"
 #include "i2c.h"
 #include "spi.h"
+#include "pal.h"
 
 #include "shell.h"
 #include "chprintf.h"
@@ -34,15 +35,11 @@ static const I2CConfig i2c_config = {
   100000
 };
 
-#if 0 ////// TODO: SPI needs to be refactored to work with the 8-bit implementation here (16 bit from reference code)
-// for now disabling in mcuconf.h and halconf.h
 static const SPIConfig spi_config = {
   NULL,
-  GPIOC,
-  4, 
-  KINETIS_SPI_TAR_SYSCLK_DIV_8(8)
+  GPIOA,
+  5 
 };
-#endif
 
 static void shell_termination_handler(eventid_t id) {
   static int i = 1;
@@ -115,10 +112,11 @@ int main(void)
   halInit();
   chSysInit();
 
-#if 0
-  spiStart(&SPID1, &spi_config); 
   spiObjectInit(&SPID1);
-#endif
+  spiStart(&SPID1, &spi_config); 
+
+  GPIOA->PDOR |= (1 << 12); // turn on boost regulator
+  //palWritePad(GPIOB, 4, PAL_HIGH);  // turn on boost regulator
 
   evtTableInit(orchard_events, 32);
 

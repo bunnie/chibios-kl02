@@ -47,14 +47,20 @@ ENTRY(Reset_Handler)
 SECTIONS
 {
     . = 0;
-    _text = .;
 
     startup : ALIGN(16) SUBALIGN(16)
     {
         KEEP(*(.vectors))
     } > flash0
+    
+  .cfmprotect : ALIGN(4) SUBALIGN(4)
+  {
+    KEEP(*(.cfmconfig))
+  } > flashcfg
 
-    constructors : ALIGN(4) SUBALIGN(4)
+    _text = .;
+
+constructors : ALIGN(4) SUBALIGN(4)
     {
         __init_array_start = .;
         KEEP(*(SORT(.init_array.*)))
@@ -70,11 +76,15 @@ SECTIONS
         __fini_array_end = .;
     } > flash
 
+    commands : ALIGN(4) SUBALIGN(4)
+    {
+        KEEP(*(SORT(.chibi_list*)));
+    } > flash
+
     .text : ALIGN(16) SUBALIGN(16)
     {
         *(.text)
         *(.text.*)
-        KEEP(*(SORT(.chibi_list*)));
         *(.rodata)
         *(.rodata.*)
         *(.glue_7t)
