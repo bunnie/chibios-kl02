@@ -70,7 +70,7 @@ static const uint8_t nw_test_2[] = {
 #define GPIOA_VOL ((GPIO_TypeDef volatile *) GPIOA_BASE)
 #define GPIOB_VOL ((GPIO_TypeDef volatile *) GPIOB_BASE)
 
-void spiCD_setup(void) {
+static void spi_CD_setup(void) {
   // hacky setup of all GPIO bits to prep for whacking an extra CD bit in
   // on an 8-bit SPI hardware unit...
   GPIOB->PDDR |= OLED_CLK_MASK; // setup for output
@@ -80,8 +80,8 @@ void spiCD_setup(void) {
 }
 
 // function only to be called inside of a selected SPI bus, before data xfer phase
-//void __attribute__((optimize("O0"))) spiCD(uint8_t cd) {
-void spiCD(uint8_t cd) {
+//void __attribute__((optimize("O0"))) spi_CD(uint8_t cd) {
+static void spi_CD(uint8_t cd) {
   // set the internal data bit
   if( cd )
     GPIOA_VOL->PSOR = OLED_MOSI_MASK;
@@ -94,7 +94,7 @@ void spiCD(uint8_t cd) {
   // fuck all that, mel shot first! we care about speed in this routine.
   PORTA_VOL->PCR[OLED_MOSI_BIT] = 0x101;  // 0x301
 
-  // override CLK mapping -- assume it starts high from spiCD_setup()
+  // override CLK mapping -- assume it starts high from spi_CD_setup()
   PORTB_VOL->PCR[OLED_CLK_BIT] = 0x101;
 
   // toggle it low
@@ -119,14 +119,14 @@ void OLED_reset(void) {  // pulse the OLED reset line
 
 void OLED_dat(uint8_t dat) {
   spiSelect(&SPID1);
-  spiCD(OLED_DAT);
+  spi_CD(OLED_DAT);
   spiStartSend(&SPID1, 1, &dat);
   spiUnselect(&SPID1);
 }
 
 void OLED_cmd(uint8_t cmd) {
   spiSelect(&SPID1);
-  spiCD(OLED_CMD);
+  spi_CD(OLED_CMD);
   spiStartSend(&SPID1, 1, &cmd);
   spiUnselect(&SPID1);
 }
@@ -134,12 +134,12 @@ void OLED_cmd(uint8_t cmd) {
 void OLED_cmd_pair(uint8_t cmd1, uint8_t cmd2) {
   
   spiSelect(&SPID1);
-  spiCD(OLED_CMD);
+  spi_CD(OLED_CMD);
   spiStartSend(&SPID1, 1, &cmd1);
   spiUnselect(&SPID1);
   
   spiSelect(&SPID1);
-  spiCD(OLED_CMD);
+  spi_CD(OLED_CMD);
   spiStartSend(&SPID1, 1, &cmd2);
   spiUnselect(&SPID1);
 }
@@ -154,7 +154,7 @@ void cmd_spi(BaseSequentialStream *chp, int argc, char *argv[])
     return;
   }
 
-  spiCD_setup();
+  spi_CD_setup();
   OLED_reset();
 
   OLED_cmd_pair(0x81, 0x48);
@@ -175,7 +175,7 @@ void cmd_spi(BaseSequentialStream *chp, int argc, char *argv[])
   // send data
   spiSelect(&SPID1);
   for( i = 0; i < 128; i ++ ) {
-    spiCD(OLED_DAT);
+    spi_CD(OLED_DAT);
     spiStartSend(&SPID1, 1, &(nw_test_2[255-(i*2)]));
   }
   spiUnselect(&SPID1);
@@ -186,13 +186,78 @@ void cmd_spi(BaseSequentialStream *chp, int argc, char *argv[])
   // send data
   spiSelect(&SPID1);
   for( i = 0; i < 128; i ++ ) {
-    spiCD(OLED_DAT);
+    spi_CD(OLED_DAT);
     spiStartSend(&SPID1, 1, &(nw_test_2[255-(i*2+1)]));
   }
   spiUnselect(&SPID1);
   
   OLED_cmd(0xAF);
   
+}
+
+void cheesy_demo(void) {
+  uint16_t i;
+  uint8_t j = 0;
+  uint8_t up_down = 1;
+  
+  spi_CD_setup();
+  OLED_reset();
+
+  OLED_cmd_pair(0x81, 0x48);
+  OLED_cmd_pair(0xAD, 0x10);
+  OLED_cmd_pair(0xD5, 0xC2);
+  OLED_cmd_pair(0xD9, 0xF1);
+  OLED_cmd_pair(0xDB, 0x30);
+  OLED_cmd_pair(0xA8, 0x0F);
+  OLED_cmd_pair(0xD3, 0x1F);
+  OLED_cmd_pair(0xDA, 0x12);
+  OLED_cmd_pair(0x20, 0x02);
+
+  OLED_cmd(0xA0);
+
+  OLED_cmd(0xAF);
+
+  while(1) {
+    
+    OLED_cmd(0xB0);
+    OLED_cmd_pair(0x00, 0x10);
+
+    // send data
+    spiSelect(&SPID1);
+    for( i = 0; i < 128; i ++ ) {
+      spi_CD(OLED_DAT);
+      spiStartSend(&SPID1, 1, &(nw_test_2[ ((255-(i*2)) + (j*2)) % 256 ]));
+    }
+    spiUnselect(&SPID1);
+    
+    OLED_cmd(0xB1);
+    OLED_cmd_pair(0x00, 0x10);
+    
+    // send data
+    spiSelect(&SPID1);
+    for( i = 0; i < 128; i ++ ) {
+      spi_CD(OLED_DAT);
+      spiStartSend(&SPID1, 1, &(nw_test_2[ ((255-(i*2+1)) + (j*2)) % 256 ]));
+    }
+    spiUnselect(&SPID1);
+
+#if 0
+    if( j == 0 ) {
+      up_down = 1;
+    }
+    if( j == 15 ) {
+      up_down = 0;
+    }
+    if( up_down )
+      j++;
+    else
+      j--;
+#endif
+    j++; // this just makes it scroll
+
+    chThdSleepMilliseconds(30);
+  }
+
 }
 
 orchard_command("spi", cmd_spi);

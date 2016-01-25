@@ -19,6 +19,9 @@
 #include "i2c.h"
 #include "spi.h"
 #include "pal.h"
+#include "oled.h"
+
+#include "gfx.h"
 
 #include "shell.h"
 #include "chprintf.h"
@@ -29,7 +32,7 @@
 
 #include <string.h>
 
-struct evt_table orchard_events;
+//struct evt_table orchard_events;
 
 static const I2CConfig i2c_config = {
   100000
@@ -97,6 +100,8 @@ static void print_mcu_info(void) {
                    pins[(sdid >> 0) & 15]);
 }
 
+void cheesy_demo(void);
+
 /*
  * Application entry point.
  */
@@ -118,20 +123,29 @@ int main(void)
   GPIOA->PDOR |= (1 << 12); // turn on boost regulator
   //palWritePad(GPIOB, 4, PAL_HIGH);  // turn on boost regulator
 
-  evtTableInit(orchard_events, 32);
+  oledStart(&SPID1);
+  
+  gfxInit();
+  
+  //  evtTableInit(orchard_events, 32);
 
   orchardShellInit();
 
-  orchardEventsStart();
+  //  orchardEventsStart();
 
-  evtTableHook(orchard_events, shell_terminated, shell_termination_handler);
+  //  evtTableHook(orchard_events, shell_terminated, shell_termination_handler);
 
   chprintf(stream, "\r\n\r\nOrchard shell.  Based on build %s\r\n", gitversion);
   print_mcu_info();
 
   orchardShellRestart();
 
+  oledOrchardBanner();
+  
   while (TRUE)
-    chEvtDispatch(evtHandlers(orchard_events), chEvtWaitOne(ALL_EVENTS));
+    chThdSleepMilliseconds(1);
+
+  //  cheesy_demo();
+    //    chEvtDispatch(evtHandlers(orchard_events), chEvtWaitOne(ALL_EVENTS));
 }
 

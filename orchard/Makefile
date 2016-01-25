@@ -54,13 +54,13 @@ endif
 # Stack size to be allocated to the Cortex-M process stack. This stack is
 # the stack used by the main() thread.
 ifeq ($(USE_PROCESS_STACKSIZE),)
-  USE_PROCESS_STACKSIZE = 0x200
+  USE_PROCESS_STACKSIZE = 0x300
 endif
 
 # Stack size to the allocated to the Cortex-M main/exceptions stack. This
 # stack is used for processing interrupts and exceptions.
 ifeq ($(USE_EXCEPTIONS_STACKSIZE),)
-  USE_EXCEPTIONS_STACKSIZE = 0x100
+  USE_EXCEPTIONS_STACKSIZE = 0x80
 endif
 
 #
@@ -89,6 +89,12 @@ include $(CHIBIOS)/os/rt/ports/ARMCMx/compilers/GCC/mk/port_v6m.mk
 # Other files (optional).
 include $(CHIBIOS)/test/rt/test.mk
 
+# uGFX includes
+GFXLIB =$(CHIBIOS)/ext/ugfx
+include $(GFXLIB)/gfx.mk
+include $(GFXLIB)/boards/base/Kosagi-KL02-Orchard-TA/board.mk
+include $(GFXLIB)/drivers/gdisp/SSD1316/driver.mk
+
 # Define linker script file here
 LDSCRIPT= $(STARTUPLD)/KL02P20.ld
 
@@ -97,8 +103,8 @@ LDSCRIPT= $(STARTUPLD)/KL02P20.ld
 CSRC = main.c \
        orchard-shell.c \
        orchard-vectors.c \
-       orchard-events.c \
        $(wildcard cmd-*.c) \
+       oled.c \
        gitversion.c \
        $(STARTUPSRC) \
        $(PORTSRC) \
@@ -110,6 +116,9 @@ CSRC = main.c \
        $(CHIBIOS)/os/hal/lib/streams/chprintf.c \
        $(CHIBIOS)/os/hal/lib/streams/memstreams.c \
        $(CHIBIOS)/os/various/shell.c \
+       $(GFXSRC) \
+
+#       orchard-events.c \
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
@@ -139,7 +148,7 @@ TCPPSRC =
 ASMSRC = $(STARTUPASM) $(PORTASM) $(OSALASM)
 
 INCDIR = $(STARTUPINC) $(KERNINC) $(PORTINC) $(OSALINC) \
-         $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) \
+         $(HALINC) $(PLATFORMINC) $(BOARDINC) $(TESTINC) $(GFXINC) \
          $(CHIBIOS)/os/hal/lib/streams $(CHIBIOS)/os/various
 
 
