@@ -1,0 +1,3 @@
+GFXINC	+= $(GFXLIB)/boards/base/Kosagi-KL02-Orchard-TA
+GFXSRC	+=
+GFXDEFS += -DGFX_USE_CHIBIOS=TRUE
