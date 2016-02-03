@@ -54,6 +54,7 @@ void cmd_print(BaseSequentialStream *chp, int argc, char *argv[])
                      argv[0], font, White, justifyCenter);
   gdispFlush();
   gdispCloseFont(font);
+
   
 }
 
