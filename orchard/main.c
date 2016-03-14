@@ -30,9 +30,17 @@
 #include "orchard-shell.h"
 #include "orchard-events.h"
 
+#include "epoch.h"
+
+#include "kl02x.h"
 #include <string.h>
 
-//struct evt_table orchard_events;
+struct evt_table orchard_app_events;
+struct ui_info orchard_ui_info;
+event_source_t ui_call;
+event_source_t ta_time_event;
+event_source_t ta_update_event;
+uint32_t ta_time = 1451606400;
 
 static const I2CConfig i2c_config = {
   100000
@@ -100,7 +108,104 @@ static void print_mcu_info(void) {
                    pins[(sdid >> 0) & 15]);
 }
 
-void cheesy_demo(void);
+static void ui_call_handler(eventid_t id) {
+  (void)id;
+  
+  coord_t width;
+  font_t font;
+  
+  switch(orchard_ui_info.font_type) {
+  case 1:
+    font = gdispOpenFont("UI2");
+    break;
+  case 2:
+    font = gdispOpenFont("DejaVuSans16");
+    break;
+  default:
+    font = gdispOpenFont("fixed_5x8");
+  }
+  
+  width = gdispGetWidth();
+  gdispClear(Black);
+  gdispDrawStringBox(0, 0, width, gdispGetFontMetric(font, fontHeight),
+                     orchard_ui_info.str, font, White, justifyCenter);
+  gdispFlush();
+  gdispCloseFont(font);
+
+  chHeapFree(orchard_ui_info.str);
+}
+
+void init_ui_events(void) {
+  chEvtObjectInit(&ui_call);
+  evtTableHook(orchard_app_events, ui_call, ui_call_handler);
+  
+  orchard_ui_info.str = NULL;
+  orchard_ui_info.font_type = font_small;
+}
+
+OSAL_IRQ_HANDLER(VectorB0) {
+  OSAL_IRQ_PROLOGUE();
+  osalSysLockFromISR();
+  LPTMR0->CSR |= LPTMRx_CSR_TCF; // clear TCF
+  
+  chEvtBroadcastI(&ta_time_event);
+  osalSysUnlockFromISR();
+  OSAL_IRQ_EPILOGUE();
+}
+
+#define TIMESTR_LEN 32
+static void update_handler(eventid_t id) {
+  (void) id;
+  date_time_t dt;
+
+  orchard_ui_info.str = chHeapAlloc(NULL, TIMESTR_LEN);
+  orchard_ui_info.font_type = font_large;
+  
+  epoch_to_date_time(&dt, ta_time);
+  
+  chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d", dt.hour, dt.minute, dt.second );
+  chEvtBroadcast(&ui_call);
+}
+
+void init_update_events(void) {
+  chEvtObjectInit(&ta_update_event);
+  evtTableHook(orchard_app_events, ta_update_event, update_handler);
+}
+
+static void time_handler(eventid_t id) {
+  (void)id;
+
+  ta_time++;
+  chEvtBroadcast(&ta_update_event);
+}
+
+void init_time_events(void) {
+  SIM->SCGC5 |= SIM_SCGC5_LPTMR;
+  
+  LPTMR0->CSR = 0; // clear the timer settings, through a soft reset
+  
+  chEvtObjectInit(&ta_time_event);
+  evtTableHook(orchard_app_events, ta_time_event, time_handler);
+
+  // 32kHz ext source / 16384, so 2Hz trigger rate
+  LPTMR0->PSR = LPTMRx_PSR_PRESCALE(0xD) |
+    // LPTMRx_PSR_PBYP |
+    LPTMRx_PSR_PCS(2);
+
+  LPTMR0->CMR = 1; // trigger after one increment
+  //LPTMR0->CNR = 0; // start at 0
+
+  LPTMR0->CSR =
+    LPTMRx_CSR_TCF |
+    LPTMRx_CSR_TIE |  // enable interrupts
+    //    LPTRMx_CSR_TFC |   // CNR reset whenever TCF is set (0)
+    //    LMPTRx_CSR_TMS |   // put into time counter mode (0)
+    LPTMRx_CSR_TEN;
+  
+  nvicEnableVector(LPTMR0_IRQn, KINETIS_LPTMR0_PRIORITY);
+
+}
+
 
 /*
  * Application entry point.
@@ -141,11 +246,16 @@ int main(void)
   orchardShellRestart();
 
   oledOrchardBanner();
-  
-  while (TRUE)
-    chThdSleepMilliseconds(1);
 
-  //  cheesy_demo();
-    //    chEvtDispatch(evtHandlers(orchard_events), chEvtWaitOne(ALL_EVENTS));
+  evtTableInit(orchard_app_events, 8);
+  
+  init_ui_events();
+  init_update_events();
+  init_time_events();
+  
+  while (TRUE) {
+    chEvtDispatch(evtHandlers(orchard_app_events), chEvtWaitOne(ALL_EVENTS));
+  }
+
 }
 

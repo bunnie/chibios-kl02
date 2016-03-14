@@ -15,18 +15,23 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
+
 #include "ch.h"
 #include "shell.h"
 #include "chprintf.h"
 
 #include "orchard-shell.h"
+#include "orchard-events.h"
 
 #include "gfx.h"
 
+extern struct ui_info orchard_ui_info;
+extern event_source_t ui_call;
+extern uint32_t ta_time;
+
 void cmd_print(BaseSequentialStream *chp, int argc, char *argv[])
 {
-  coord_t width;
-  font_t font;
   uint8_t font_type = 0;
 
   (void)argv;
@@ -37,25 +42,25 @@ void cmd_print(BaseSequentialStream *chp, int argc, char *argv[])
   if( argc == 2 )
     font_type = (uint8_t) strtoul(argv[1], NULL, 10);
 
-  switch(font_type) {
-  case 1:
-    font = gdispOpenFont("UI2");
-    break;
-  case 2:
-    font = gdispOpenFont("DejaVuSans16");
-    break;
-  default:
-    font = gdispOpenFont("fixed_5x8");
+  orchard_ui_info.font_type = font_type;
+  orchard_ui_info.str = chHeapAlloc(NULL, strlen(argv[0]));
+  if( orchard_ui_info.str != NULL ) {
+    strcpy(orchard_ui_info.str, argv[0]);
   }
-  
-  width = gdispGetWidth();
-  gdispClear(Black);
-  gdispDrawStringBox(0, 0, width, gdispGetFontMetric(font, fontHeight),
-                     argv[0], font, White, justifyCenter);
-  gdispFlush();
-  gdispCloseFont(font);
 
-  
+  chEvtBroadcast(&ui_call);
+
 }
 
 orchard_command("print", cmd_print);
+
+void cmd_epoch(BaseSequentialStream *chp, int argc, char *argv[])
+{
+  if( argc != 1 )
+    chprintf(chp, "Usage: epoch <time in epoch format>\r\n");
+
+  ta_time = (uint32_t) strtoul(argv[0], NULL, 10);
+  
+}
+
+orchard_command("epoch", cmd_epoch);

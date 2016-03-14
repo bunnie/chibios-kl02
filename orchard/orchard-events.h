@@ -24,6 +24,17 @@
    }
  */
 
+struct ui_info {
+  char *str;
+  uint8_t font_type;
+};
+
+typedef enum _font_codes {
+  font_small = 0,
+  font_medium,
+  font_large,
+} font_codes;
+
 struct evt_table {
   int size;
   int next;
