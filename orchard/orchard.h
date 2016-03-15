@@ -13,7 +13,9 @@ void halt(void);
 #define stream_driver                 ((BaseSequentialStream *)serialDriver)
 extern void *stream;
 
-#define i2cDriver                     (&I2CD1)
+#define i2cDriver                     (&I2CD2)
+#define accelAddr                     0x1c
+#define touchAddr                     0x5a
 
 #ifndef ARRAY_SIZE
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(*x))

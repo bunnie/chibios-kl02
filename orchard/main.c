@@ -31,6 +31,7 @@
 #include "orchard-events.h"
 
 #include "epoch.h"
+#include "captouch.h"
 
 #include "kl02x.h"
 #include <string.h>
@@ -40,6 +41,7 @@ struct ui_info orchard_ui_info;
 event_source_t ui_call;
 event_source_t ta_time_event;
 event_source_t ta_update_event;
+event_source_t captouch_event;
 uint32_t ta_time = 1451606400;
 
 static const I2CConfig i2c_config = {
@@ -52,14 +54,20 @@ static const SPIConfig spi_config = {
   5 
 };
 
-static void shell_termination_handler(eventid_t id) {
-  static int i = 1;
-  (void)id;
+static void captouch_cb(EXTDriver *extp, expchannel_t channel) {
+  (void)extp;
+  (void)channel;
 
-  chprintf(stream, "\r\nRespawning shell (shell #%d, event %d)\r\n", ++i, id);
-  orchardShellRestart();
+  chSysLockFromISR();
+  chEvtBroadcastI(&captouch_event);
+  chSysUnlockFromISR();
 }
 
+static const EXTConfig ext_config = {
+  {
+    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, captouch_cb, PORTB, 13},
+  }
+};
 
 extern int print_hex(BaseSequentialStream *chp,
                      const void *block, int count, uint32_t start);
@@ -222,6 +230,8 @@ int main(void)
   halInit();
   chSysInit();
 
+  i2cStart(i2cDriver, &i2c_config);
+  
   spiObjectInit(&SPID1);
   spiStart(&SPID1, &spi_config); 
 
@@ -232,13 +242,7 @@ int main(void)
   
   gfxInit();
   
-  //  evtTableInit(orchard_events, 32);
-
   orchardShellInit();
-
-  //  orchardEventsStart();
-
-  //  evtTableHook(orchard_events, shell_terminated, shell_termination_handler);
 
   chprintf(stream, "\r\n\r\nOrchard shell.  Based on build %s\r\n", gitversion);
   print_mcu_info();
@@ -251,7 +255,13 @@ int main(void)
   
   init_ui_events();
   init_update_events();
-  init_time_events();
+  init_time_events();  // enables interrupts from LPTMR
+
+  chEvtObjectInit(&captouch_event);
+  evtTableHook(orchard_app_events, captouch_event, captouch_keychange);
+  captouchStart(i2cDriver);
+
+  extStart(&EXTD1, &ext_config); // enables interrupts on gpios
   
   while (TRUE) {
     chEvtDispatch(evtHandlers(orchard_app_events), chEvtWaitOne(ALL_EVENTS));

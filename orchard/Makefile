@@ -106,6 +106,7 @@ CSRC = main.c \
        $(wildcard cmd-*.c) \
        oled.c \
        gitversion.c \
+       captouch.c \
        epoch.c \
        $(STARTUPSRC) \
        $(PORTSRC) \
