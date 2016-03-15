@@ -32,6 +32,7 @@
 
 #include "epoch.h"
 #include "captouch.h"
+#include "accel.h"
 
 #include "kl02x.h"
 #include <string.h>
@@ -42,6 +43,8 @@ event_source_t ui_call;
 event_source_t ta_time_event;
 event_source_t ta_update_event;
 event_source_t captouch_event;
+event_source_t accel_event;
+
 uint32_t ta_time = 1451606400;
 
 static const I2CConfig i2c_config = {
@@ -63,8 +66,18 @@ static void captouch_cb(EXTDriver *extp, expchannel_t channel) {
   chSysUnlockFromISR();
 }
 
+static void accel_cb(EXTDriver *extp, expchannel_t channel) {
+  (void)extp;
+  (void)channel;
+
+  chSysLockFromISR();
+  chEvtBroadcastI(&accel_event);
+  chSysUnlockFromISR();
+}
+
 static const EXTConfig ext_config = {
   {
+    {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, accel_cb, PORTB, 3},
     {EXT_CH_MODE_FALLING_EDGE | EXT_CH_MODE_AUTOSTART, captouch_cb, PORTB, 13},
   }
 };
@@ -251,7 +264,7 @@ int main(void)
 
   oledOrchardBanner();
 
-  evtTableInit(orchard_app_events, 8);
+  evtTableInit(orchard_app_events, 10);
   
   init_ui_events();
   init_update_events();
@@ -260,6 +273,10 @@ int main(void)
   chEvtObjectInit(&captouch_event);
   evtTableHook(orchard_app_events, captouch_event, captouch_keychange);
   captouchStart(i2cDriver);
+
+  chEvtObjectInit(&accel_event);
+  evtTableHook(orchard_app_events, accel_event, accel_irq);
+  accelStart(i2cDriver);
 
   extStart(&EXTD1, &ext_config); // enables interrupts on gpios
   

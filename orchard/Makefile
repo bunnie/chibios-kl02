@@ -107,6 +107,7 @@ CSRC = main.c \
        oled.c \
        gitversion.c \
        captouch.c \
+       accel.c \
        epoch.c \
        $(STARTUPSRC) \
        $(PORTSRC) \
