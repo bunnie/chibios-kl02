@@ -24,24 +24,28 @@
 
 #include "accel.h"
 
-static int should_stop(void) {
-  uint8_t bfr[1];
-  return chnReadTimeout(serialDriver, bfr, sizeof(bfr), 1);
+
+// enter via event from main thread to save stack space
+void accel_test(eventid_t id) {
+  (void) id;
+  struct accel_data d;
+  chprintf(stream, "\r\nThis test runs until reboot\r\n");
+
+  while (1) {
+    accelPoll(&d);
+    chprintf(stream, "\rX: %5d  Y: %5d  Z: %5d", d.x, d.y, d.z);
+    chThdSleepMilliseconds(30);
+  }
+  chprintf(stream, "\r\n");
 }
 
 void cmd_accel(BaseSequentialStream *chp, int argc, char *argv[])
 {
-
   (void)argv;
   (void)argc;
-  struct accel_data d;
-  chprintf(chp, "\r\nPress any key to quit\r\n");
-
-  while (!should_stop()) {
-    accelPoll(&d);
-    chprintf(chp, "\rX: %5d  Y: %5d  Z: %5d", d.x, d.y, d.z);
-  }
-  chprintf(chp, "\r\n");
+  (void)chp;
+  chEvtBroadcast(&accel_test_event); // just broadcast an event to save stack space
+  
 }
 
 orchard_command("accel", cmd_accel);

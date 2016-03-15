@@ -44,6 +44,9 @@ event_source_t ta_time_event;
 event_source_t ta_update_event;
 event_source_t captouch_event;
 event_source_t accel_event;
+event_source_t accel_test_event;
+
+char xp, yp, zp;
 
 uint32_t ta_time = 1451606400;
 
@@ -149,7 +152,7 @@ static void ui_call_handler(eventid_t id) {
   width = gdispGetWidth();
   gdispClear(Black);
   gdispDrawStringBox(0, 0, width, gdispGetFontMetric(font, fontHeight),
-                     orchard_ui_info.str, font, White, justifyCenter);
+                     orchard_ui_info.str, font, White, justifyLeft);
   gdispFlush();
   gdispCloseFont(font);
 
@@ -184,7 +187,7 @@ static void update_handler(eventid_t id) {
   
   epoch_to_date_time(&dt, ta_time);
   
-  chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d", dt.hour, dt.minute, dt.second );
+  chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d    %c%c%c", dt.hour, dt.minute, dt.second, xp, yp, zp );
   chEvtBroadcast(&ui_call);
 }
 
@@ -196,6 +199,7 @@ void init_update_events(void) {
 static void time_handler(eventid_t id) {
   (void)id;
 
+  xp = ' '; yp = ' '; zp = ' ';
   ta_time++;
   chEvtBroadcast(&ta_update_event);
 }
@@ -227,6 +231,23 @@ void init_time_events(void) {
 
 }
 
+static void accel_pulse_handler(eventid_t id) {
+  (void) id;
+
+  if(pulse_axis & PULSE_AXIS_X) {
+    //chprintf(stream, "x");
+    xp = 'x';
+  }
+  if( pulse_axis & PULSE_AXIS_Y) {
+    //chprintf(stream, "y");
+    yp = 'y';
+  }
+  if( pulse_axis & PULSE_AXIS_Z) {
+    //chprintf(stream, "z");
+    zp = 'z';
+  }
+  chEvtBroadcast(&ta_update_event);
+}
 
 /*
  * Application entry point.
@@ -264,7 +285,7 @@ int main(void)
 
   oledOrchardBanner();
 
-  evtTableInit(orchard_app_events, 10);
+  evtTableInit(orchard_app_events, 9);
   
   init_ui_events();
   init_update_events();
@@ -278,6 +299,12 @@ int main(void)
   evtTableHook(orchard_app_events, accel_event, accel_irq);
   accelStart(i2cDriver);
 
+  chEvtObjectInit(&accel_test_event);
+  evtTableHook(orchard_app_events, accel_test_event, accel_test);
+
+  evtTableHook(orchard_app_events, accel_pulse, accel_pulse_handler);
+  xp = ' '; yp = ' '; zp = ' ';
+  
   extStart(&EXTD1, &ext_config); // enables interrupts on gpios
   
   while (TRUE) {

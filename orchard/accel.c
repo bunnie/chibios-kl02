@@ -220,9 +220,8 @@
 
 static I2CDriver *driver;
 
-event_source_t accel_x_axis_pulse;
-event_source_t accel_y_axis_pulse;
-event_source_t accel_z_axis_pulse;
+uint8_t pulse_axis;
+event_source_t accel_pulse;
 event_source_t accel_freefall;
 event_source_t accel_landscape_portrait;
 
@@ -280,16 +279,61 @@ void accel_irq(eventid_t id) {
     pulsemask = accel_get(REG_PULSE_SRC);
     i2cReleaseBus(driver);
 
-    if (pulsemask & REG_PULSE_SRC_AXX)
-      chEvtBroadcast(&accel_x_axis_pulse);
-
-    if (pulsemask & REG_PULSE_SRC_AXY)
-      chEvtBroadcast(&accel_y_axis_pulse);
-
-    if (pulsemask & REG_PULSE_SRC_AXZ)
-      chEvtBroadcast(&accel_z_axis_pulse);
+    pulse_axis = (pulsemask >> 4) & 0x7;
+    chEvtBroadcast(&accel_pulse);
   }
 }
+
+void accelEnablePulse(uint8_t threshxy, uint8_t threshz, uint8_t timeout, uint8_t latency) {
+  i2cAcquireBus(driver);
+  /* Put the accelerometer into "Standby" mode to program registers */
+  while (accel_get(REG_CTRL1) & REG_CTRL1_ACTIVE)
+    accel_set(REG_CTRL1, 0 | REG_CTRL1_DR0);  // set to 400Hz mode, but standby
+
+  accel_set(REG_PULSE_CFG, REG_PULSE_CFG_ELE |
+	    REG_PULSE_CFG_ZSPEFE |
+	    REG_PULSE_CFG_YSPEFE |
+	    REG_PULSE_CFG_XSPEFE );
+  
+
+  // 2g/0.063g/count = 32 counts for threshold @ 2g
+  // 3g/0.063g/count = 48 counts for threshold @ 3g
+  accel_set(REG_PULSE_THSX, threshxy);
+  accel_set(REG_PULSE_THSY, threshxy);
+  accel_set(REG_PULSE_THSZ, threshz);
+
+  // 6 counts = 30ms pulse limit @ 200Hz ODR
+  accel_set(REG_PULSE_TMLT, timeout);
+
+  // 200ms latency @ 200 Hz ODR = 40 counts
+  accel_set(REG_PULSE_LTCY, latency);
+
+  // enable pulse interrupts
+  accel_set(REG_CTRL4, REG_CTRL4_INT_EN_PULSE);
+  // route pulse IRQ to INT1  
+  accel_set(REG_CTRL5, REG_CTRL5_INT_CFG_PULSE);
+  
+  /* Re-enable the accelerometer */
+  accel_set(REG_CTRL1, REG_CTRL1_ACTIVE | REG_CTRL1_DR0);
+
+  i2cReleaseBus(driver);
+}
+
+void accelDisablePulse(void) {
+
+  i2cAcquireBus(driver);
+
+  /* Put the accelerometer into "Standby" mode */
+  accel_set(REG_CTRL1, 0);
+
+  accel_set(REG_CTRL3, 0);
+  accel_set(REG_CTRL4, 0);
+  accel_set(REG_CTRL5, 0);
+  
+  accel_set(REG_CTRL1, REG_CTRL1_ACTIVE);
+  i2cReleaseBus(driver);
+}
+
 
 void accelEnableFreefall(int sensitivity, int debounce) {
 
@@ -377,15 +421,16 @@ void accelStart(I2CDriver *i2cp) {
 
   i2cReleaseBus(driver);
 
-  chEvtObjectInit(&accel_x_axis_pulse);
-  chEvtObjectInit(&accel_y_axis_pulse);
-  chEvtObjectInit(&accel_z_axis_pulse);
+  chEvtObjectInit(&accel_pulse);
   chEvtObjectInit(&accel_freefall);
   chEvtObjectInit(&accel_landscape_portrait);
 
   // enable freefall by default
-  accelEnableFreefall(24, 40); // first arg somewhere between 20-24, lower is more sensitive
+  //  accelEnableFreefall(24, 40); // first arg somewhere between 20-24, lower is more sensitive
   // 22 = 1.5g, 40 = 50ms
+
+  accelEnablePulse( 25, 42, 80, 240 );
+  
 }
 
 msg_t accelPoll(struct accel_data *data) {
