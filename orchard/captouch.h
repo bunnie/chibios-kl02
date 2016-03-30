@@ -64,17 +64,8 @@
 #define	ATO_CFG_TGT	0x7F
 
 // Global Constants
-#if KEY_LAYOUT == LAYOUT_BM
-// direct touches to the PCB have a much larger signature over baseline
-// so we can use this to our advantage to filter ambient noise
-#define TOU_THRESH      0x18 
-#define REL_THRESH      0x1C
-#else
-// touches through the PC case are fairly small; but the case also filters
-// out most ambient noise so we can be more sensitive
-#define TOU_THRESH	0x08
-#define	REL_THRESH	0x0C
-#endif
+#define TOU_THRESH	0x18
+#define	REL_THRESH	0x1C
 
 void captouchStart(I2CDriver *i2cp);
 void captouchStop(void);
@@ -91,5 +82,11 @@ void captouchCalibrate(void);
 void captouch_keychange(eventid_t id); // keychange handler
 
 extern event_source_t captouch_changed;
+
+typedef enum _DirIntent {
+  dirNone = 0x0,
+  dirLeft = 0x1,
+  dirRight = 0x2,
+} DirIntent;
 
 #endif /* __CAPTOUCH_H__ */

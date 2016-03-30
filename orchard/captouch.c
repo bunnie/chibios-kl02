@@ -69,13 +69,8 @@ static void captouch_config(void) {
 
   // Section C
   // This group sets touch and release thresholds for each electrode
-#if KEY_LAYOUT == LAYOUT_BC1
-  captouch_set(ELE0_T, 18); // outer electrodes have an offset
-  captouch_set(ELE0_R, 25);
-#else
   captouch_set(ELE0_T, TOU_THRESH);
   captouch_set(ELE0_R, REL_THRESH);
-#endif
   captouch_set(ELE1_T, TOU_THRESH);
   captouch_set(ELE1_R, REL_THRESH);
   captouch_set(ELE2_T, TOU_THRESH);
@@ -96,14 +91,9 @@ static void captouch_config(void) {
   captouch_set(ELE9_R, REL_THRESH);
   captouch_set(ELE10_T, TOU_THRESH);
   captouch_set(ELE10_R, REL_THRESH);
-
-#if KEY_LAYOUT == LAYOUT_BC1
-  captouch_set(ELE11_T, 18);
-  captouch_set(ELE11_R, 25);
-#else
   captouch_set(ELE11_T, TOU_THRESH);
   captouch_set(ELE11_R, REL_THRESH);
-#endif
+
   // set debounce requirements
   captouch_set(TCH_DBNC, 0x11); 
 
@@ -151,6 +141,8 @@ void captouchFastBaseline(void) {
   captouch_state = 0x0; // clear captouch state, it'll be all wrong now
 }
 
+extern void captouch_handler(eventid_t id);
+
 void captouch_keychange(eventid_t id) {
   (void) id;
   
@@ -165,8 +157,11 @@ void captouch_keychange(eventid_t id) {
     changed = true;
   captouch_state = mask;
 
-  if (changed)
-    chEvtBroadcast(&captouch_changed);
+  //  if (changed)
+  //    chEvtBroadcast(&captouch_changed);
+  if(changed)
+    captouch_handler(0);
+  
 }
 
 uint16_t captouchRead(void) {

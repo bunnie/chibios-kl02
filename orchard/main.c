@@ -36,6 +36,7 @@
 
 #include "kl02x.h"
 #include <string.h>
+#include <stdlib.h>
 
 struct evt_table orchard_app_events;
 struct ui_info orchard_ui_info;
@@ -45,8 +46,19 @@ event_source_t ta_update_event;
 event_source_t captouch_event;
 event_source_t accel_event;
 event_source_t accel_test_event;
+extern event_source_t captouch_changed;
 
 char xp, yp, zp;
+
+DirIntent dir = dirNone;
+struct swipe_state {
+  int8_t lastpos;
+  DirIntent direction_intent;
+  uint32_t lasttime;
+} swipe_state;
+#define DWELL_THRESH  500  // time to spend in one state before direction intent is null
+
+int8_t swipe_remap(uint16_t raw);
 
 uint32_t ta_time = 1451606400;
 
@@ -185,9 +197,21 @@ static void update_handler(eventid_t id) {
   orchard_ui_info.str = chHeapAlloc(NULL, TIMESTR_LEN);
   orchard_ui_info.font_type = font_large;
   
-  epoch_to_date_time(&dt, ta_time);
+  epoch_to_date_time(&dt, ta_time >> 5);
+
+  switch( swipe_state.direction_intent ) {
+  case dirLeft:
+    chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d %2d right", dt.hour, dt.minute, dt.second, swipe_remap(captouchRead()) );
+    break;
+  case dirRight:
+    chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d %2d left", dt.hour, dt.minute, dt.second, swipe_remap(captouchRead()) );
+    break;
+  default:
+    chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d %2d", dt.hour, dt.minute, dt.second, swipe_remap(captouchRead()) );
+    break;
+  }
+  //  chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d %d", dt.hour, dt.minute, dt.second, swipe_remap(captouchRead()) );
   
-  chsnprintf( orchard_ui_info.str, TIMESTR_LEN, "%02d:%02d:%02d    %c%c%c", dt.hour, dt.minute, dt.second, xp, yp, zp );
   chEvtBroadcast(&ui_call);
 }
 
@@ -213,7 +237,7 @@ void init_time_events(void) {
   evtTableHook(orchard_app_events, ta_time_event, time_handler);
 
   // 32kHz ext source / 16384, so 2Hz trigger rate
-  LPTMR0->PSR = LPTMRx_PSR_PRESCALE(0xD) |
+  LPTMR0->PSR = LPTMRx_PSR_PRESCALE(0x8) |   // set to D for proper time
     // LPTMRx_PSR_PBYP |
     LPTMRx_PSR_PCS(2);
 
@@ -247,6 +271,98 @@ static void accel_pulse_handler(eventid_t id) {
     zp = 'z';
   }
   chEvtBroadcast(&ta_update_event);
+}
+
+// 1 is furthest right, and goes up from there to most left
+int8_t swipe_remap(uint16_t raw) {
+  switch(raw) {
+  case 0x0:
+    return 0;
+  case 0x08:  // TPAD8 -> ELE3 = 1000
+    return 1;
+  case 0x08 | 0x10:
+    return 2;
+  case 0x10: // TPAD7 -> ELE4 = 1 0000
+    return 3;
+  case (0x10 | 0x20):
+    return 4;
+  case 0x20: // TPAD6 -> ELE 5 = 10 0000
+    return 5;
+  case (0x40 | 0x20):
+    return 6;
+  case 0x40: // TPAD5 -> ELE 6 = 100 0000
+    return 7;
+  case (0x40 | 0x400):
+    return 8;
+  case 0x400: // TPAD1 -> ELE10 = 100 0000 0000
+    return 9;
+  case (0x400 | 0x200):
+    return 10;
+  case 0x200:  // TPAD2 -> ELE9 = 10 0000 0000
+    return 11;
+  case (0x200 | 0x100):
+    return 12;
+  case 0x100:  // TPAD3 -> ELE8 = 1 0000 0000
+    return 13;
+  case (0x100 | 0x80):
+    return 14;
+  case 0x80:  // TPAD4 -> ELE7 = 1000 0000
+    return 15;
+  default:
+    return -1;
+  }
+}
+
+void captouch_handler(eventid_t id) {
+  (void) id;
+  uint32_t curtime = chVTGetSystemTime();
+  int8_t curpos = swipe_remap(captouchRead());
+  int8_t posdif;
+
+  dir = swipe_state.direction_intent;
+  
+  if( curpos == 0 ) {
+    swipe_state.lastpos = -1;
+    swipe_state.lasttime = curtime;
+    swipe_state.direction_intent = dirNone;
+    return;
+  }
+  if( curpos == -1 ) {
+    swipe_state.lasttime = curtime;
+    //swipe_state.direction_intent = dirNone;
+    return;
+  }
+  if( swipe_state.lastpos == -1 ) {
+    // starting from untouched state
+    swipe_state.lastpos = curpos;
+    swipe_state.lasttime = curtime;
+    swipe_state.direction_intent = dirNone;
+    return;
+  }
+
+  posdif = curpos - swipe_state.lastpos;
+  if( abs(posdif) <= 1 ) {
+    if( curtime - swipe_state.lasttime > DWELL_THRESH ) {
+      swipe_state.direction_intent = dirNone;
+      chEvtBroadcast(&ta_update_event);
+    }
+    return;
+  } else {
+    if( posdif > 0 ) {
+      swipe_state.direction_intent = dirLeft;
+      swipe_state.lastpos = curpos;
+      swipe_state.lasttime = curtime;
+      chEvtBroadcast(&ta_update_event);
+      return;
+    } else {
+      swipe_state.direction_intent = dirRight;
+      swipe_state.lastpos = curpos;
+      swipe_state.lasttime = curtime;
+      chEvtBroadcast(&ta_update_event);
+      return;
+    }
+  }
+  
 }
 
 /*
@@ -291,8 +407,11 @@ int main(void)
   init_update_events();
   init_time_events();  // enables interrupts from LPTMR
 
+  chEvtObjectInit(&captouch_changed);
+
   chEvtObjectInit(&captouch_event);
   evtTableHook(orchard_app_events, captouch_event, captouch_keychange);
+  evtTableHook(orchard_app_events, captouch_changed, captouch_handler);
   captouchStart(i2cDriver);
 
   chEvtObjectInit(&accel_event);
@@ -306,8 +425,16 @@ int main(void)
   xp = ' '; yp = ' '; zp = ' ';
   
   extStart(&EXTD1, &ext_config); // enables interrupts on gpios
+
+  chThdSleepMilliseconds(1000);
+  captouchFastBaseline();
+  //  captouchCalibrate();
   
   while (TRUE) {
+    //if(!palReadPad(GPIOB, 13)) {
+      //      chEvtBroadcast(&captouch_event);
+    captouch_keychange(0);
+      //    }
     chEvtDispatch(evtHandlers(orchard_app_events), chEvtWaitOne(ALL_EVENTS));
   }
 

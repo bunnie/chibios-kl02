@@ -13,6 +13,7 @@ static int should_stop(void) {
   return chnReadTimeout(serialDriver, bfr, sizeof(bfr), 1);
 }
 
+extern int8_t swipe_remap(uint16_t raw);
 static void cmd_touch(BaseSequentialStream *buf, int argc, char **argv) {
 
   uint16_t val;
@@ -23,7 +24,11 @@ static void cmd_touch(BaseSequentialStream *buf, int argc, char **argv) {
   chprintf(buf, "Captouch value: \n\r");
   while( !should_stop() ) {
     val = captouchRead();
-    chprintf(buf, "0x%04x\r", val);
+    //    val = (uint16_t) captouchGet(0);
+    //    val |= (uint16_t) captouchGet(1) << 8;
+    chprintf(buf, "0x%04x", val);
+
+    chprintf(buf, " %d  \r", swipe_remap(captouchRead()) );
   }
   chprintf(buf, "\r\n");
   
